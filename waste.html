@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CleanCampus App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    header {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      position: relative;
+    }
+    #logoutBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+    }
+    section {
+      display: none;
+      padding: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      background: #f0f0f0;
+      color: #000;
+    }
+    .dash-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 36px 72px;
+      font-size: 1.8em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button.submit, .back-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .auth-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .auth-form {
+      background: #222;
+      padding: 25px; /* Increased padding */
+      border-radius: 10px;
+      text-align: center;
+      width: 112.5%; /* Increased width by 1.25 times */
+      max-width: 500px; /* Increased max width */
+      margin: 10px;
+      font-size: 1.25em; /* Increased font size */
+    }
+    .auth-form input {
+      width: 90%;
+      padding: 12px; /* Increased padding */
+      font-size: 1.25em; /* Increased font size */
+    }
+    .auth-form button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px 25px; /* Increased padding */
+      border-radius: 5px;
+      font-size: 1.25em; /* Increased font size */
+    }
+    .toggle-auth {
+      margin-top: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #f1c40f;
+      text-decoration: underline;
+    }
+    .card {
+      background: linear-gradient(to right, #f9d423, #ff4e50);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+      color: #000;
+    }
+    .leaderboard {
+      background: linear-gradient(to right, #1c92d2, #f2fcfe);
+      padding: 20px; /* Increased padding by 1.4 times */
+      border-radius: 10px;
+      color: #000;
+      font-size: 1.4em; /* Increased font size by 1.4 times */
+    }
+    .leaderboard ol {
+      font-size: 1.4em; /* Increased font size for the list items by 1.4 times */
+    }
+    .leaderboard li {
+      margin-bottom: 10px; /* Increased space between leaderboard items by 1.4 times */
+    }
+    #home {
+      background-color: skyblue;
+      border-radius: 10px;
+    }
+    #home img {
+      display: block;
+      margin: 20px auto;
+      max-width: 500px; /* Increased size */
+      height: auto;
+    }
+    .contacts, .feedback {
+      background: #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    .feedback h3 {
+      color: #f1c40f;
+    }
+    #slogan-box {
+      font-size: 36px;
+      font-weight: bold;
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .dashboard {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .logo-img {
+      display: block;
+      margin: 10px auto;
+      max-width: 500px; /* Increased size */
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    CleanCampus
+    <button id="logoutBtn" onclick="logout()">Logout</button>
+  </header>
+
+  <div class="auth-box" id="authSection">
+    <div class="auth-form" id="loginForm">
+      <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo" class="logo-img" />
+      <h2>Login</h2>
+      <input type="text" id="loginUsername" placeholder="Username" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button onclick="loginUser()">Login</button>
+      <div class="toggle-auth" onclick="toggleAuth('signup')">Don't have an account? Sign up</div>
+    </div>
+    <div class="auth-form" id="signupForm" style="display: none;">
+      <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo" class="logo-img" />
+      <h2>Sign Up</h2>
+      <input type="text" id="signupUsername" placeholder="New Username" />
+      <input type="password" id="signupPassword" placeholder="New Password" />
+      <button onclick="signupUser()">Sign Up</button>
+      <div class="toggle-auth" onclick="toggleAuth('login')">Already have an account? Login</div>
+    </div>
+  </div>
+
+  <section id="home">
+    <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo"/>
+    <h2>Welcome to CleanCampus</h2>
+    <p>Your tool to report and manage campus cleanliness and sustainability efforts.</p>
+
+    <div id="slogan-box"></div>
+
+    <div class="dashboard">
+      <h3>Dashboard</h3>
+      <button class="dash-btn" onclick="showSection('report')">Report Waste</button>
+      <button class="dash-btn" onclick="showSection('awareness')">Awareness</button>
+      <button class="dash-btn" onclick="showSection('leaderboard')">Leaderboard</button>
+      <button class="dash-btn" onclick="showSection('feedback')">Feedback</button>
+    </div>
+
+    <div class="contacts">
+      <h3>Contact Management</h3>
+      <p><strong>Address:</strong> SRKR Marg, Bhimavaram-534204, AP</p>
+      <p><strong>Phone:</strong> 08816-223332</p>
+      <p><strong>Mobile:</strong> +91 9848823332</p>
+      <p><strong>Email:</strong> principal@srkrec.ac.in</p>
+      <p><strong>Principal:</strong> Dr. V. Chandra Sekhar - 9440351652</p>
+      <p><strong>Dean (T&P):</strong> Dr. K. R. Satyanarayana - 9704195376</p>
+      <p><strong>HOD CSE:</strong> Dr. Bh. V. S. R. K. Raju - 9440933903</p>
+    </div>
+  </section>
+
+  <section id="report">
+    <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo" class="logo-img" />
+    <h2>Report Waste Issue</h2>
+    <form id="reportForm">
+      <input type="file" id="photo" accept="image/*" required />
+      <input type="text" id="location" placeholder="Location" required />
+      <textarea id="description" placeholder="Description" rows="4" required></textarea>
+      <button type="submit" class="submit">Submit Report</button>
+    </form>
+    <button class="back-btn" onclick="showSection('home')">Back to Home</button>
+  </section>
+
+  <section id="awareness">
+    <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo" class="logo-img" />
+    <h2>Awareness & Tips</h2>
+    <div class="card"><h3>Segregate Waste</h3><p>Use green bins for wet waste, blue for dry, and red for non-recyclables.</p></div>
+    <div class="card"><h3>Compost Wet Waste</h3><p>Turn food and garden waste into compost to enrich campus gardens.</p></div>
+    <div class="card"><h3>Spread the Word</h3><p>Participate in clean-up drives and encourage your peers.</p></div>
+    <button class="back-btn" onclick="showSection('home')">Back to Home</button>
+  </section>
+
+  <section id="leaderboard">
+    <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo" class="logo-img" />
+    <h2>Green Champions Leaderboard</h2>
+    <div class="leaderboard">
+      <ol>
+        <li>Aryan - 15 Reports</li>
+        <li>Meena - 12 Reports</li>
+        <li>Ravi - 10 Reports</li>
+        <li>Sarah - 8 Reports</li>
+        <li>Vikram - 7 Reports</li>
+      </ol>
+    </div>
+    <button class="back-btn" onclick="showSection('home')">Back to Home</button>
+  </section>
+
+  <section id="feedback">
+    <img src="https://srkrec.edu.in/assets/img/logo.png" alt="SRKREC Logo" class="logo-img" />
+    <h2>Feedback Form</h2>
+    <div class="feedback">
+      <form id="feedbackForm">
+        <input type="text" id="fbName" placeholder="Your Name" required />
+        <input type="email" id="fbEmail" placeholder="Your Email" required />
+        <textarea id="fbMessage" placeholder="Your Feedback" rows="4" required></textarea>
+        <button type="submit" class="submit">Submit Feedback</button>
+      </form>
+    </div>
+    <button class="back-btn" onclick="showSection('home')">Back to Home</button>
+  </section>
+
+  <script>
+    window.onload = function () {
+      const users = JSON.parse(localStorage.getItem('users')) || [{ username: 'admin', password: 'admin' }];
+      const reportForm = document.getElementById('reportForm');
+      const feedbackForm = document.getElementById('feedbackForm');
+
+      const slogans = [
+        "Clean India, Green India.",
+        "One step towards cleanliness.",
+        "Don’t be mean, keep India clean.",
+        "Your cleanliness is your responsibility.",
+        "Let’s clean our India, be a part of Swachh Bharat Abhiyan.",
+        "Clean city, healthy city.",
+        "Be clean, be healthy.",
+        "Waste is a resource in the wrong place.",
+        "Don’t litter, it makes the world bitter.",
+        "Swachh Bharat, Sundar Bharat."
+      ];
+      let sloganIndex = 0;
+      setInterval(() => {
+        const box = document.getElementById("slogan-box");
+        if (box) box.innerText = slogans[sloganIndex++ % slogans.length];
+      }, 5000);
+      document.getElementById("slogan-box").innerText = slogans[0];
+
+      window.loginUser = function () {
+        const u = document.getElementById('loginUsername').value;
+        const p = document.getElementById('loginPassword').value;
+        const user = users.find((x) => x.username === u && x.password === p);
+        if (user) {
+          document.getElementById('authSection').style.display = 'none';
+          document.getElementById('logoutBtn').style.display = 'block';
+          showSection('home');
+        } else {
+          alert('Invalid credentials');
+        }
+      };
+
+      window.signupUser = function () {
+        const u = document.getElementById('signupUsername').value;
+        const p = document.getElementById('signupPassword').value;
+        const exists = users.find((x) => x.username === u);
+        if (exists) {
+          alert('Username already exists');
+        } else {
+          users.push({ username: u, password: p });
+          localStorage.setItem('users', JSON.stringify(users));
+          alert('Sign up successful! Please login.');
+          toggleAuth('login');
+        }
+      };
+
+      window.toggleAuth = function (mode) {
+        document.getElementById('loginForm').style.display = mode === 'login' ? 'block' : 'none';
+        document.getElementById('signupForm').style.display = mode === 'signup' ? 'block' : 'none';
+      };
+
+      window.logout = function () {
+        document.getElementById('authSection').style.display = 'flex';
+        document.getElementById('logoutBtn').style.display = 'none';
+        document.querySelectorAll('section').forEach((sec) => sec.style.display = 'none');
+      };
+
+      window.showSection = function (sectionId) {
+        document.querySelectorAll('section').forEach((sec) => sec.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+      };
+
+      window.showSection('home');
+    };
+  </script>
+</body>
+</html>
